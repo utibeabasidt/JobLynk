@@ -1,0 +1,184 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "inter", sans-serif;
+  background-color: #f3f4f6;
+  color: #1a1a1a;
+  padding: 50px 130px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-family: poppins;
+  font-size: 24px;
+  font-weight: bold;
+  color: #3971ff;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  display: block;
+  font-size: 50px;
+  width: 100%;
+  padding-top: 50px;
+}
+
+.add-job-btn {
+  background-color: #a5f330;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.employer-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.employer-info .name {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  color: #2563eb;
+  font-size: 50px;
+}
+
+.employer-info p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.employer-info .det {
+  font-family: "inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+  margin: 0;
+}
+
+.job-listings {
+  flex: 1;
+  min-width: 300px;
+}
+
+.job-listings h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 40px;
+  margin: 5px 0;
+  /* font-size: 22px;
+  margin-bottom: 15px; */
+}
+.lildet {
+  display: flex;
+}
+
+.job-card {
+  background-color: #dde8ff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+.job-card h3 {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.job-type {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.description {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.salary {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  height: 30px;
+  width: 100px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #f3f4f6;
+  color: #000;
+}
+
+.delete-btn {
+  background-color: #1f2937;
+  color: #fff;
+}
+
+.add-jobs-bottom {
+  margin-top: 30px;
+}
+.add-job-btn2 {
+  background-color: #a5f330;
+  padding: 10px 20px;
+  height: 50px;
+  width: 150px;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 17px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
