@@ -108,6 +108,7 @@ h1 {
   /* font-size: 22px;
   margin-bottom: 15px; */
 }
+
 .lildet {
   display: flex;
 }
@@ -171,6 +172,7 @@ h1 {
 .add-jobs-bottom {
   margin-top: 30px;
 }
+
 .add-job-btn2 {
   background-color: #a5f330;
   padding: 10px 20px;

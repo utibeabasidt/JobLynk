@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>JobLynk - Upload Job</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Poppins;
+        background-color: #f4f6f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      header {
+        width: 100%;
+        padding: 20px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: transparent;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #267dff;
+      }
+
+      nav a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #000;
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      .form-container {
+        background-color: #ffffff;
+        margin: 30px auto;
+        padding: 40px 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        width: 90%;
+        max-width: 500px;
+      }
+
+      .form-container h2 {
+        color: #267dff;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+
+      .form-container p {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 25px;
+        background-color: #dbe6ff;
+        font-size: 14px;
+        color: #333;
+      }
+
+      textarea {
+        resize: none;
+        height: 100px;
+      }
+
+      .row {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .row input[type="text"] {
+        flex: 1;
+      }
+
+      .upload-btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .btn {
+        background-color: #7ed957;
+        color: #fff;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #6ac245;
+      }
+
+      @media screen and (max-width: 480px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 15px;
+        }
+
+        nav {
+          margin-top: 10px;
+        }
+
+        nav a {
+          margin-left: 0;
+          margin-right: 15px;
+          font-size: 14px;
+        }
+
+        .form-container {
+          padding: 30px 20px;
+        }
+
+        .row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">JobLynk</div>
+      <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <div class="form-container">
+      <h2>JobLynk</h2>
+      <p>Upload A New Opportunity</p>
+
+      <form>
+        <input type="text" name="company" placeholder="Company" required />
+        <input type="text" name="title" placeholder="Job Title" required />
+        <textarea
+          name="description"
+          placeholder="Description"
+          required
+        ></textarea>
+
+        <div class="row">
+          <input type="text" name="salary" placeholder="Salary" required />
+          <input
+            type="text"
+            name="type"
+            placeholder="Type     Part-time / Full-time"
+            required
+          />
+        </div>
+
+        <div class="upload-btn-container">
+          <button type="submit" class="btn">Upload</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

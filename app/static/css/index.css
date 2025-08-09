@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #2563eb;
+  --black-blue: #1f2937;
+  --green: #84cc16;
+}
+
+body {
+  background: #f3f4f6;
+  color: var(--black-blue);
+  font-family: 'Poppins', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black-blue);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Header Styles */
+header {
+  display: flex;
+  justify-content: center;
+  column-gap: 24vw;
+  margin-top: 8vh;
+  font-weight: bold;
+}
+
+.title {
+  color: var(--blue);
+}
+
+.links {
+  display: flex;
+  column-gap: 3vw;
+  font-size: 100%;
+  padding-top: 0.5%;
+}
+
+.get-started-btn {
+  background: #84cc16;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--green);
+  cursor: pointer;
+  font-size: 95%;
+  padding: 0.5% 1.5%;
+}
+
+.get-started-btn>a {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Hero Styles */
+
+.joblynk-hero {
+  text-align: center;
+  font-size: 200%;
+  margin-top: 25vh;
+  color: var(--black-blue);
+}
+
+.hero-explanations {
+  width: 60vw;
+  text-align: center;
+  margin: auto;
+  margin-top: 3vh;
+}
+
+.hero-btns {
+  display: flex;
+  justify-content: center;
+  column-gap: 3vw;
+  margin-top: 5vh;
+}
+
+.employer-btn,
+.freelancer-btn {
+  border-radius: 50px;
+  padding: 1% 2.7%;
+  font-size: 110%;
+  border: none;
+  cursor: pointer;
+}
+
+.employer-btn {
+  background: var(--green);
+}
+
+.employer-btn>a {
+  color: var(--black-blue);
+  font-weight: bold;
+}
+
+.freelancer-btn {
+  background: var(--black-blue);
+}
+
+.freelancer-btn>a {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* About Styles */
+article {
+  width: 90vw;
+  margin: 24vh 0 10vh 0;
+  padding-left: 8%;
+  font-size: 110%;
+}
+
+.about-heading {
+  color: var(--blue);
+  font-size: 250%;
+  padding-left: 0.4%;
+}
+
+.about-body {
+  margin: 4vh 0;
+}
+
+.offers-list {
+  margin: 4vh 0 4vh 2vw;
+}
