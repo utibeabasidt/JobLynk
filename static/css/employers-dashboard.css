@@ -1,0 +1,267 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #2563eb;
+  --black-blue: #1f2937;
+  --green: #84cc16;
+  --first-background: #dae4fc;
+  --second-background: #f3f4f6;
+}
+
+body {
+  color: var(--black-blue);
+  font-family: 'Poppins', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black-blue);
+  font-family: "Poppins", sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+body::selection {
+  color: var(--second-background);
+  background: var(--black-blue);
+}
+
+.header-and-dashboard-heading {
+  padding: 130px 0 10px 0;
+}
+
+header {
+  position: fixed;
+  top: 1%;
+  width: 86%;
+  height: 60px;
+  background: var(--first-background);
+  box-shadow: 0 0 3px var(--black-blue);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin-left: 7%;
+  border-radius: 50px;
+  z-index: 5;
+}
+
+.logo {
+  color: var(--blue);
+}
+
+nav {
+  display: flex;
+  column-gap: 15px;
+}
+
+nav a {
+  font-weight: 600;
+}
+
+.add-job-btn {
+  background-color: var(--green);
+  color: #ffffff;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--green);
+}
+
+.dashboard-heading {
+  font-size: 200%;
+  padding: 50px 0 20px 0;
+  text-align: center;
+}
+
+.dashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* .employer-info {} */
+
+.employer-info .name {
+  font-weight: 500;
+  color: var(--blue);
+  font-size: 36px;
+}
+
+.employer-info .subject {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 10px 0;
+}
+
+.employer-info .det {
+  font-weight: 400;
+  font-size: 25px;
+}
+
+.job-listings {
+  width: 90%;
+}
+
+.job-listings h2 {
+  font-weight: 500;
+  font-size: 36px;
+  margin: 25px 0;
+  text-align: center;
+}
+
+.job-card {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  background-color: var(--first-background);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.job-card h3 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.job-type {
+  color: #888;
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.salary {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: var(--green);
+  color: var(--black-blue);
+}
+
+.delete-btn {
+  background-color: var(--black-blue);
+  color: #ffffff;
+}
+
+.add-jobs-bottom {
+  display: flex;
+  justify-content: center;
+}
+
+.add-job-btn2 {
+  background-color: var(--green);
+  margin-bottom: 40px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--green);
+}
+
+@media screen and (min-width: 920px) {
+
+  .header-and-dashboard-heading {
+    padding: 70px 0 0 0;
+  }
+
+  header {
+    height: 45px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+
+  nav {
+    column-gap: 40px;
+  }
+
+  .add-job-btn {
+    margin-top: 0;
+    padding: 10px 30px;
+  }
+
+  .dashboard-heading {
+    font-size: 250%;
+    padding: 50px 0 70px 97px;
+    text-align: left;
+  }
+
+  .dashboard {
+    /* width: 80%; */
+    /* width: 200px; */
+    max-width: 85vw;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 auto;
+  }
+
+  .employer-info .name {
+    font-size: 45px;
+  }
+
+  .employer-info .subject {
+    font-size: 20px;
+    margin: 20px 0 5px 0;
+  }
+
+  .job-listings {
+    width: 500px;
+  }
+
+  .job-listings h2 {
+    margin: 0 0 20px 0;
+    text-align: left;
+  }
+
+  .job-card {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 30px;
+  }
+
+  .add-jobs-bottom {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .add-job-btn2 {
+    font-size: 20px;
+  }
+}

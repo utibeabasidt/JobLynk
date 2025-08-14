@@ -1,0 +1,196 @@
+/* General Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #2563eb;
+  --black-blue: #1f2937;
+  --green: #84cc16;
+  --first-background: #dae4fc;
+  --second-background: #f3f4f6;
+}
+
+body {
+  background: var(--second-background);
+  color: var(--black-blue);
+  font-family: 'Poppins', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black-blue);
+  font-family: "Poppins", sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+body::selection {
+  color: var(--second-background);
+  background: var(--black-blue);
+}
+
+.head-and-hero {
+  padding: 120px 0 0 0;
+}
+
+header {
+  position: fixed;
+  top: 0.5%;
+  width: 80%;
+  height: 65px;
+  margin-left: 10%;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1.5vh;
+  border-radius: 50px;
+  z-index: 5;
+  background: var(--first-background);
+  box-shadow: 0 0 3px var(--black-blue);
+}
+
+.title {
+  color: var(--blue);
+}
+
+nav {
+  display: flex;
+  column-gap: 10px;
+}
+
+nav a {
+  color: var(--black-blue);
+  font-weight: 600;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.joblynk-hero {
+  color: var(--blue);
+  font-size: 28px;
+  letter-spacing: -1px;
+}
+
+.input-and-search {
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
+  column-gap: 20px;
+}
+
+.input-and-search input {
+  width: 250px;
+  background: #dddbdb;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.icon-container {
+  background: var(--green);
+  padding: 6px 8px;
+  border: none;
+  border-radius: 50px;
+}
+
+.job-card {
+  width: 320px;
+  background: var(--first-background);
+  margin: 0 auto 30px auto;
+  border-radius: 15px;
+  padding: 15px 25px;
+}
+
+.job-card h3 {
+  letter-spacing: -1px;
+  font-size: 24px;
+}
+
+.company-and-type {
+  display: flex;
+  column-gap: 20px;
+}
+
+.description {
+  padding-top: 10px;
+}
+
+.card-footer {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.salary {
+  font-weight: 600;
+}
+
+.apply-btn {
+  color: var(--green);
+}
+
+@media screen and (min-width: 720px) {
+  .head-and-hero {
+    padding: 150px 0 0 0;
+  }
+
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px 52px;
+  }
+
+  nav {
+    column-gap: 32px;
+  }
+
+  .joblynk-hero {
+    font-size: 40px;
+    animation-name: hero;
+    animation-duration: 6s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes hero {
+    0% {
+      color: var(--first-background);
+    }
+
+    50% {
+      color: var(--black-blue);
+    }
+
+    90% {
+      color: var(--black-blue);
+    }
+
+    100% {
+      color: var(--first-background);
+    }
+  }
+
+  .input-and-search {
+    margin-bottom: 50px;
+  }
+
+  .input-and-search input {
+    width: 300px;
+  }
+
+  .job-card {
+    width: 80%;
+    padding: 15px 35px;
+  }
+}

@@ -4,69 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobLynk - Employer Dashboard</title>
-    <link rel="stylesheet" href="/app/static/css/employers-dashboard.css" />
+    <link rel="stylesheet" href="/static/css/employers-dashboard.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <header>
-      <div class="logo">JobLynk</div>
-      <nav>
-        <a href="#">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
-      </nav>
-      <button class="add-job-btn">Add Job</button>
-    </header>
+    <div class="header-and-dashboard-heading">
+      <header>
+        <h2 class="logo">JobLynk</h2>
+        <nav>
+          <a href="./index.html">Home</a>
+          <a href="#">About Us</a>
+          <a href="#">Contact</a>
+        </nav>
+        <button class="add-job-btn">
+          <a href="./upload-employers.html">Add Job</a>
+        </button>
+      </header>
+
+      <h1 class="dashboard-heading">Employers Dashboard</h1>
+    </div>
 
     <main class="dashboard">
-      <h1>Employers Dashboard</h1>
       <section class="employer-info">
-        <p class="name">Jon Doe</p>
-        <p>
-            <strong>Company Name:</strong>
-            <p class="det">
-                WorkSphere
-            </p>
-        </p>
-        <p>
-            <strong>Email:</strong>
-            <p class="det">
-                example@gmail.com
-            </p>
-        </p>
-        <p>
-            <strong>Date Of Birth:</strong>
-            <p class="det">
-                DD/MM/YYYY
-            </p>
-        </p>
+        <h3 class="name">Jon Doe</h3>
+        <p class="subject">Company Name:</p>
+        <p class="det">WorkSphere</p>
+
+        <p class="subject">Email:</p>
+        <p class="det">example@gmail.com</p>
+
+        <p class="subject">Date Of Birth:</p>
+        <p class="det">DD/MM/YYYY</p>
       </section>
 
       <section class="job-listings">
         <h2>Previous Jobs Listed</h2>
         <div class="job-card">
           <h3>Frontend Developer</h3>
-          <div class="lildet">
-            <p class="job-type">Company</p>
-            <p class="job-type">Part-Time</p>
-          </div>
+          <p class="job-type">Part-Time</p>
           <p class="description">
             We’re looking for a skilled Frontend Developer to join our growing
             team. You’ll work closely with designers and backend developers to
             build responsive, user-friendly web interfaces that bring our
             products to life.
           </p>
-          <p class="salary"><strong>$450/month</strong></p>
+          <p class="salary">$450/month</p>
           <div class="card-actions">
             <button class="edit-btn">Edit</button>
             <button class="delete-btn">Delete</button>
           </div>
         </div>
         <div class="add-jobs-bottom">
-          <button class="add-job-btn2">Add Jobs</button>
+          <button class="add-job-btn2">
+            <a href="./upload-employers.html">Add Job</a>
+          </button>
         </div>
       </section>
     </main>

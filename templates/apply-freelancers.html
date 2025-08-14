@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobLynk - Application Form</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/apply-freelancer.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">JobLynk</div>
+      <nav>
+        <a href="./freelancers-dashboard.html">Dashboard</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <div class="form-container">
+      <h1>JobLynk</h1>
+      <p>Application Form...</p>
+
+      <form>
+        <input type="text" name="fullname" placeholder="Full Name" required />
+        <input type="text" name="skills" placeholder="Skills" required />
+        <textarea
+          name="about"
+          placeholder="Tell Us More About Yourself"
+          required
+        ></textarea>
+
+        <div class="file-upload">
+          <span>Resume/CV</span>
+          <input type="file" name="resume" id="resumeUpload" />
+          <label for="resumeUpload">Upload</label>
+        </div>
+        <div class="btn-container">
+          <button type="submit" class="btn">Apply</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

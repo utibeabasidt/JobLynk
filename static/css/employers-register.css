@@ -1,0 +1,135 @@
+/* General Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #2563eb;
+    --black-blue: #1f2937;
+    --green: #84cc16;
+    --form-background: #dae4fc;
+}
+
+body {
+    background: #f3f4f6;
+    color: var(--black-blue);
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: var(--black-blue);
+    font-family: "Poppins", sans-serif;
+}
+
+
+/* Header Styles */
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5vh;
+    font-weight: bold;
+}
+
+.title {
+    color: var(--blue);
+}
+
+.links {
+    display: flex;
+    column-gap: 3vw;
+}
+
+/* Form Container Styles */
+.form-container {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-header {
+    color: var(--blue);
+    margin-bottom: 1vh;
+    text-align: center;
+}
+
+.form-subheader {
+    color: var(--black-blue);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Form Styles (Each Input) */
+input {
+    width: 300px;
+    margin: auto auto;
+    border: none;
+    border-radius: 50px;
+    font-size: 100%;
+    background: var(--form-background);
+    padding: 15px;
+    outline: none;
+}
+
+input::placeholder {
+    font-size: 100%;
+    color: var(--black-blue);
+}
+
+/* Buttons Styles */
+
+.btn-container {
+    width: 300px;
+    margin: 2vh auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register-btn {
+    border: none;
+    background: var(--green);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 80%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login {
+    font-size: 90%;
+}
+
+.login-btn {
+    color: var(--green);
+}
+
+@media screen and (min-width:720px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 40px 100px 0 100px;
+    }
+
+    input {
+        width: 350px;
+    }
+
+    .btn-container {
+        width: 330px;
+        margin: 2vh auto;
+        column-gap: 10px;
+    }
+
+    .register-btn {
+        padding: 8px 20px;
+        font-size: 90%;
+    }
+}
