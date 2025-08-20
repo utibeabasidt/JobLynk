@@ -11,125 +11,163 @@
     --black-blue: #1f2937;
     --green: #84cc16;
     --form-background: #dae4fc;
+    --light-bg: #f3f4f6;
+    --flash-bg: rgba(37, 99, 235, 0.15); /* Slightly darker for contrast */
 }
 
 body {
-    background: #f3f4f6;
+    background: var(--light-bg);
     color: var(--black-blue);
     font-family: 'Poppins', sans-serif;
+    line-height: 1.6; /* Improved base readability */
+    font-size: 16px; /* Base font size for clarity */
 }
 
 a {
     text-decoration: none;
     color: var(--black-blue);
-    font-family: "Poppins", sans-serif;
 }
-
 
 /* Header Styles */
 header {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    margin-top: 5vh;
+    padding: 20px 5%;
     font-weight: bold;
 }
 
 .title {
     color: var(--blue);
+    font-size: 1.5rem;
 }
 
 .links {
     display: flex;
-    column-gap: 3vw;
+    gap: 20px;
+}
+
+.links a {
+    font-size: 1rem;
 }
 
 /* Form Container Styles */
 .form-container {
-    margin: 30px 0;
-    display: flex;
-    flex-direction: column;
+    max-width: 400px; /* Centered and wider for better spacing */
+    margin: 50px auto;
+    text-align: center;
 }
 
 .form-header {
     color: var(--blue);
-    margin-bottom: 1vh;
-    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
 }
 
 .form-subheader {
     color: var(--black-blue);
+    font-size: 1rem;
     margin-bottom: 30px;
-    text-align: center;
 }
 
-/* Form Styles (Each Input) */
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Replace <br> with flex gap for clean spacing */
+}
+
 input {
-    width: 300px;
-    margin: auto auto;
+    width: 100%;
+    max-width: 350px;
     border: none;
     border-radius: 50px;
-    font-size: 100%;
     background: var(--form-background);
-    padding: 15px;
+    padding: 15px 20px;
     outline: none;
-}
-
-input::placeholder {
-    font-size: 100%;
+    font-size: 1rem;
     color: var(--black-blue);
 }
 
-/* Buttons Styles */
+input::placeholder {
+    color: var(--black-blue);
+    opacity: 0.8; /* Better placeholder visibility */
+}
 
+/* Button Styles */
 .btn-container {
-    width: 300px;
-    margin: 2vh auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    max-width: 350px;
+    margin-top: 10px;
 }
 
 .register-btn {
     border: none;
     background: var(--green);
-    padding: 10px 20px;
+    padding: 10px 25px;
     border-radius: 50px;
     color: #ffffff;
     font-weight: 500;
-    font-size: 80%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    cursor: pointer;
 }
 
 .login {
-    font-size: 90%;
+    font-size: 0.9rem;
 }
 
 .login-btn {
     color: var(--green);
+    font-weight: 500;
 }
 
-@media screen and (min-width:720px) {
+/* Flash Messages */
+.flash-messages {
+    width: 100%;
+    max-width: 350px;
+    margin: 20px auto 0;
+    padding: 15px 20px;
+    background-color: var(--flash-bg);
+    border-radius: 25px;
+    text-align: center;
+}
+
+.flash-message {
+    color: var(--blue);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.flash-message:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 720px) {
     header {
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 40px 100px 0 100px;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
     }
 
-    input {
-        width: 350px;
+    .form-container {
+        max-width: 90%;
+        margin: 30px auto;
     }
 
-    .btn-container {
-        width: 330px;
-        margin: 2vh auto;
-        column-gap: 10px;
+    input, .btn-container {
+        max-width: 100%;
     }
+}
 
-    .register-btn {
-        padding: 8px 20px;
-        font-size: 90%;
+@media screen and (min-width: 1000px) {
+    .form-container {
+        max-width: 450px;
     }
 }

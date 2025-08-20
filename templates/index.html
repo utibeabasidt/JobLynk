@@ -1,111 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JobLynk - Landing Page</title>
-    <link rel="stylesheet" href="/static/css/index.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <section id="head" class="head-and-hero">
-      <!-- Header Section -->
-      <header>
-        <h2 class="title">JobLynk</h2>
-        <nav>
-          <a href="#head">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <button class="login-btn"><a href="./login">Login</a></button>
-      </header>
+<document filename="index.html">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobLynk - Landing Page</title>
+  <link rel="stylesheet" href="/static/css/index.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&#x26;display=swap"
+    rel="stylesheet"
+  />
 
-      <!-- Hero Section -->
-      <main class="hero">
-        <h1 class="joblynk-hero">
-          Connecting You to the <br />Right Opportunity.
-        </h1>
-
-        <p class="hero-explanations">
-          Explore thousands of jobs, connect with top employers, and the take
-          the next step in your carreer. JobLynk makes it easy to find roles
-          that matches your goals – and apply with confidence.
-        </p>
-
-        <div class="hero-btns">
-          <button class="employer-btn">
-            <a href="./employers-register.html">Employer</a>
-          </button>
-          <button class="freelancer-btn">
-            <a href="./freelancers-register.html">Freelancer</a>
-          </button>
-        </div>
-      </main>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-      <h1 class="about-heading">About Us</h1>
-      <p class="about-body">
-        JobLynk is a job board website created by Group 7. Designed to bridge
-        the gap between job seekers and employers, JobLynk offers a simple and
-        effective way for users to find, apply for, and post job opportunities
-        across various fields. <br />
+  <section id="head" class="head-and-hero">
+    <!-- Header Section -->
+    <header>
+      <h2 class="title">JobLynk</h2>
+      <nav>
+        <a href="{{ url_for('routes.index') }}#head">Home</a>
+        <a href="{{ url_for('routes.index') }}#about">About Us</a>
+        <a href="{{ url_for('routes.index') }}#contact">Contact</a>
+      </nav>
+      <button class="login-btn">
+        <a href="{{ url_for('routes.login') }}">Login</a>
+      </button>
+    </header>
+    <!-- Hero Section -->
+    <main class="hero">
+      <h1 class="joblynk-hero">
+        Connecting You to the <br />Right Opportunity.
+      </h1>
+      <p class="hero-explanations">
+        Explore thousands of jobs, connect with top employers, and the take the
+        next step in your carreer. JobLynk makes it easy to find roles that
+        matches your goals – and apply with confidence.
+      </p>
+      <div class="hero-btns">
+        <button class="employer-btn">
+          <a href="{{ url_for('routes.employers_register') }}"
+            >Employer</a
+          >
+        </button>
+        <button class="freelancer-btn">
+          <a href="{{ url_for('routes.freelancers_register') }}"
+            >Freelancer</a
+          >
+        </button>
+      </div>
+    </main>
+  </section>
+  <!-- About Section -->
+  <section id="about" class="about">
+    <h1 class="about-heading">About Us</h1>
+    <p class="about-body">
+      JobLynk is a job board website created by Group 7. Designed to bridge the
+      gap between job seekers and employers, JobLynk offers a simple and
+      effective way for users to find, apply for, and post job opportunities
+      across various fields. <br />
+      <br />
+      Our platform was built with real-world functionality in mind – aiming to
+      help users quickly connect to opportunities that match their skills,
+      goals, and career paths.
+    </p>
+    <h1 class="offers-heading">What We Offer:</h1>
+    <ul class="offers-list">
+      <li>A user-friendly interface for browsing and applying to jobs.</li>
+      <li>
+        A platform for emloyers to post openings and find qualitief candidates.
+      </li>
+      <li>
+        Fast, organized access to opportunities – from internships to full-time
+        roles.
+      </li>
+      <li>Easy filtering by role, location, and category.</li>
+    </ul>
+    <p class="about-conclusion">
+      The project reflects our shared interest in technology, teamwork, and
+      solving real problems through digital solutions. We hope JobLynk provides
+      a glimpse of what's possible when innovation meets purpose.
+    </p>
+  </section>
+  <!-- Contact Section -->
+  <footer id="contact">
+    <div class="contributors">
+      <h1>Contributors</h1>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+      <p><span>Members</span><span>Members</span></p>
+    </div>
+    <div class="contact-container">
+      <h1>Contact Us</h1>
+      <div class="contact-label-and-input">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" /><br /><br />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" /><br /><br />
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" /><br />
         <br />
-        Our platform was built with real-world functionality in mind – aiming to
-        help users quickly connect to opportunities that match their skills,
-        goals, and career paths.
-      </p>
-      <h1 class="offers-heading">What We Offer:</h1>
-      <ul class="offers-list">
-        <li>A user-friendly interface for browsing and applying to jobs.</li>
-        <li>
-          A platform for emloyers to post openings and find qualitief
-          candidates.
-        </li>
-        <li>
-          Fast, organized access to opportunities – from internships to
-          full-time roles.
-        </li>
-        <li>Easy filtering by role, location, and category.</li>
-      </ul>
-      <p class="about-conclusion">
-        The project reflects our shared interest in technology, teamwork, and
-        solving real problems through digital solutions. We hope JobLynk
-        provides a glimpse of what's possible when innovation meets purpose.
-      </p>
-    </section>
-
-    <!-- Contact Section -->
-    <footer id="contact">
-      <div class="contributors">
-        <h1>Contributors</h1>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
-        <p><span>Members</span><span>Members</span></p>
       </div>
-
-      <div class="contact-container">
-        <h1>Contact Us</h1>
-        <div class="contact-label-and-input">
-          <label for="name">Name:</label>
-          <input type="text" id="name" /><br /><br />
-          <label for="email">Email:</label>
-          <input type="email" id="email" /><br /><br />
-          <label for="message">Message:</label>
-          <input type="text" id="message" /><br />
-          <br />
-        </div>
-        <button type="submit" id="submit">Submit</button>
-      </div>
-    </footer>
-  </body>
-</html>
+      <button
+        type="submit"
+        id="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </footer>
+  <p>{% with messages = get_flashed_messages() %} {% if messages %}</p>
+  <div class="flash-messages">
+    {% for message in messages %}
+    <p class="flash-message">{{ message }}</p>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+</document>

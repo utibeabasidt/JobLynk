@@ -16,9 +16,9 @@
     <header>
       <h2 class="title">JobLynk</h2>
       <div class="links">
-        <a href="./index.html">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
+        <a href="{{ url_for('routes.index') }}">Home</a>
+        <a href="{{ url_for('routes.index') }}#about">About Us</a>
+        <a href="{{ url_for('routes.index') }}#contact">Contact</a>
       </div>
     </header>
 
@@ -26,19 +26,30 @@
     <div class="form-container">
       <h1 class="form-header">JobLynk</h1>
       <p class="form-subheader">Create an account now!!</p>
-      <input type="text" placeholder="Full-Name" required /><br />
-      <input type="text" placeholder="Company" required /><br />
-      <input type="email" placeholder="Email" required /><br />
-      <input type="date" placeholder="Date Of Birth" required /><br />
-      <input type="password" placeholder="Password" required /><br />
-      <!-- Button container -->
-      <div class="btn-container">
-        <button type="submit" class="register-btn">Register</button>
-        <span class="login"
-          >Already have an account?
-          <a href="./login.html" class="login-btn">Login</a></span
-        >
-      </div>
+      <form action="{{ url_for('routes.employers_register') }}" method="post">
+        <input type="text" placeholder="Full-Name" name="name" required /><br />
+        <input type="text" placeholder="Company" name="company_name" required /><br />
+        <input type="email" placeholder="Email" name="email" required /><br />
+        <input type="date" placeholder="Date Of Birth" name="date_of_birth" required /><br />
+        <input type="password" placeholder="Password" name="password" required /><br />
+        <!-- Button container -->
+        <div class="btn-container">
+          <button type="submit" class="register-btn">Register</button>
+          <span class="login"
+            >Already have an account?
+            <a href="{{ url_for('routes.login') }}" class="login-btn">Login</a></span
+          >
+        </div>
+      </form>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for message in messages %}
+              <p class="flash-message">{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
     </div>
   </body>
 </html>

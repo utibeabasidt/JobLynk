@@ -1,38 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JobLynk - Login</title>
-    <link rel="stylesheet" href="/static/css/login-and-change-password.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header>
-      <h2 class="logo">JobLynk</h2>
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
-      </nav>
-    </header>
+<document filename="login.html">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobLynk - Login</title>
+  <link rel="stylesheet" href="/static/css/login-and-change-password.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&#x26;display=swap"
+    rel="stylesheet"
+  />
 
-    <main>
-      <h1 class="title">JobLynk</h1>
-      <p class="subtitle">Welcome back!!</p>
-
-      <form action="#">
-        <input type="email" placeholder="E-mail" required />
-        <input type="password" placeholder="Password" required />
-
-        <div class="actions">
-          <button type="submit" class="btn">Login</button>
-          <a href="./change-password.html" class="link">Forgot Password</a>
-        </div>
-      </form>
-    </main>
-  </body>
-</html>
+  <header>
+    <h2 class="logo">JobLynk</h2>
+    <nav>
+      <a href="{{ url_for('routes.index') }}">Home</a>
+      <a href="{{ url_for('routes.index') }}#about">About Us</a>
+      <a href="{{ url_for('routes.index') }}#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <h1 class="title">JobLynk</h1>
+    <p class="subtitle">Welcome back!!</p>
+    <form action="{{ url_for('routes.login') }}" method="post">
+      <input type="email" placeholder="E-mail" name="email" required />
+      <input type="password" placeholder="Password" name="password" required />
+      <div class="actions">
+        <button type="submit" class="btn">Login</button>
+        <a href="{{ url_for('routes.change_password') }}" class="link"
+          >Forgot Password</a
+        >
+      </div>
+    </form>
+    {% with messages = get_flashed_messages() %} {% if messages or error %}
+    <div class="flash-messages">
+      {% for message in messages %}
+      <p class="flash-message">{{ message }}</p>
+      {% endfor %} {% if error %}
+      <p class="flash-message">{{ error }}</p>
+      {% endif %}
+    </div>
+    {% endif %} {% endwith %}
+  </main>
+</document>
