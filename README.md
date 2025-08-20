@@ -2,15 +2,15 @@
 A simple job listing website for freelancers and employers.
 
 ## Setup
-1. Clone the repo: `git clone https://github.com/utibeabasidt/JobLynk.git`
-2. Install PostgreSQL and create a `joblynk_db` database.
-3. Create a `.env` file with credentials (see example).
-4. Install dependencies: `pip install -r requirements.txt`
-5. Run the app: `python app.py`
+1. Clone the repo: `git clone https://github.com/utibeabasidt/JobLynk`
+2. Install Python 3 and Git.
+3. Create a virtual environment: `python -m venv venv` (Windows) or `python3 -m venv venv` (macOS/Linux).
+4. Activate it: `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (macOS/Linux).
+5. Install dependencies: `pip install -r requirements.txt`.
+6. Set up Render PostgreSQL: Create a database on Render and copy the DATABASE_URL.
+7. Create .env with: `DATABASE_URL=<your_render_database_url> SECRET_KEY=<your-secret-key>`.
+8. Initialize tables: `python -c "from db import create_tables; create_tables()"`.
+9. Run the app: `python app.py` and visit http://127.0.0.1:5000/.
 
-## .env Example
-POSTGRES_DATABASE=joblynk_db
-POSTGRES_USER=your_username
-POSTGRES_PASSWORD=your_password
-POSTGRES_HOST=localhost
-SECRET_KEY=your-secret-key
+## Deployment
+- Push to GitHub, deploy on Render, and set DATABASE_URL in Render's environment.
