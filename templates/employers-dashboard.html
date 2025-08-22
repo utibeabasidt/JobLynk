@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobLynk - Employer Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/employers-dashboard.css') }}" />
+    <link rel="stylesheet" href="/static/css/employers-dashboard.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
       rel="stylesheet"
@@ -16,8 +15,8 @@
         <h2 class="logo">JobLynk</h2>
         <nav>
           <a href="{{ url_for('routes.index') }}">Home</a>
-          <a href="#">About Us</a>
-          <a href="#">Contact</a>
+          <a href="{{ url_for('routes.index') }}#about">About Us</a>
+          <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
         <button class="add-job-btn">
           <a href="{{ url_for('routes.upload_job') }}">Add Job</a>
@@ -29,39 +28,36 @@
 
     <main class="dashboard">
       <section class="employer-info">
-        <h3 class="name">{{ user.name if user else 'User Name' }}</h3>
+        <h3 class="name">{{ user.name }}</h3>
         <p class="subject">Company Name:</p>
-        <p class="det">{{ user.company_name if user and user.company_name else 'Company Name' }}</p>
+        <p class="det">{{ user.company_name }}</p>
 
         <p class="subject">Email:</p>
-        <p class="det">{{ user.email if user else 'user@example.com' }}</p>
+        <p class="det">{{ user.email }}</p>
 
-        <p class="subject">Date Of Birth:</p>
-        <p class="det">{{ user.date_of_birth if user and user.date_of_birth else 'DD/MM/YYYY' }}</p>
+        <p class="subject">Date of establishment:</p>
+        <p class="det">{{ user.date_of_birth }}</p>
       </section>
 
       <section class="job-listings">
         <h2>Previous Jobs Listed</h2>
-        
-        {% if jobs %}
-          {% for job in jobs %}
+        {% for job in jobs %}
           <div class="job-card">
             <h3>{{ job.title }}</h3>
             <p class="job-type">{{ job.job_type }}</p>
             <p class="description">{{ job.description }}</p>
             <p class="salary">${{ job.salary }}/month</p>
             <div class="card-actions">
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
+              <form action="{{ url_for('routes.edit_job', job_id=job.id) }}" method="get" style="display:inline;">
+                <button type="submit" class="edit-btn">Edit</button>
+              </form>
+              <form action="{{ url_for('routes.delete_job', job_id=job.id) }}" method="post" style="display:inline;">
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
             </div>
           </div>
-          {% endfor %}
-        {% else %}
-          <div class="no-jobs">
-            <p>You haven't posted any jobs yet. Start by adding your first job!</p>
-          </div>
-        {% endif %}
-        
+        {% endfor %}
+
         <div class="add-jobs-bottom">
           <button class="add-job-btn2">
             <a href="{{ url_for('routes.upload_job') }}">Add Job</a>
@@ -74,7 +70,7 @@
       {% if messages %}
         <div class="flash-messages">
           {% for message in messages %}
-            <div class="flash-message">{{ message }}</div>
+            <p class="flash-message">{{ message }}</p>
           {% endfor %}
         </div>
       {% endif %}

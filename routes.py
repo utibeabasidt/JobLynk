@@ -84,10 +84,13 @@ def employers_register():
     name = request.form.get("name")
     password = request.form.get("password")
     company_name = request.form.get("company_name")
-    if not email or not name or not password or not company_name:
+    date_of_birth = request.form.get("date_of_birth")
+    if not email or not name or not password or not company_name or not date_of_birth:
         flash("All fields are required!")
         return redirect(url_for("routes.employers_register"))
-    user_id = db.insert_user(name, email, password, "employer", company_name)
+    user_id = db.insert_user(
+        name, email, password, "employer", company_name, date_of_birth
+    )
     if not user_id:
         flash("Email already exists!")
         return redirect(url_for("routes.employers_register"))
@@ -95,11 +98,6 @@ def employers_register():
 
 
 # Authenticated routes
-@routes.route("/freelancers/dashboard")
-@login_required
-def freelancers_dashboard():
-    jobs = db.get_all_jobs()
-    return render_template("freelancers-dashboard.html", jobs=jobs)
 
 
 @routes.route("/employers/dashboard")
@@ -128,6 +126,84 @@ def upload_job():
             return redirect(url_for("routes.employers_dashboard"))
         flash("Failed to upload job!")
     return render_template("upload-employers.html")
+
+
+@routes.route("/employer/job/edit/<int:job_id>", methods=["GET", "POST"])
+@login_required
+def edit_job(job_id):
+    user_id = int(request.cookies.get("user_id"))
+    job = next((j for j in db.get_jobs_by_employer(user_id) if j["id"] == job_id), None)
+    if not job:
+        flash("Job not found or unauthorized!")
+        return redirect(url_for("routes.employers_dashboard"))
+    if request.method == "POST":
+        if db.update_job(
+            job_id,
+            request.form["title"],
+            request.form["description"],
+            float(request.form["salary"]),
+            request.form["job_type"],
+            user_id,
+        ):
+            flash("Job updated successfully!")
+            return redirect(url_for("routes.employers_dashboard"))
+        flash("Failed to update job!")
+    return render_template("edit-job.html", job=job)
+
+
+@routes.route("/employer/job/delete/<int:job_id>", methods=["POST"])
+@login_required
+def delete_job(job_id):
+    user_id = int(request.cookies.get("user_id"))
+    if db.delete_job(job_id, user_id):
+        flash("Job deleted successfully!")
+    else:
+        flash("Failed to delete job or unauthorized!")
+    return redirect(url_for("routes.employers_dashboard"))
+
+
+@routes.route("/freelancers/dashboard")
+@login_required
+def freelancers_dashboard():
+    page = request.args.get("page", 1, type=int)
+    search_query = request.args.get("search", "").lower()
+    per_page = 3  
+
+    all_jobs = db.get_all_jobs()
+
+    jobs_with_employer = []
+    for job in all_jobs:
+        employer = db.get_user_by_id(job["employer_id"])
+        job["company_name"] = (
+            employer.get("company_name", "Unknown") if employer else "Unknown"
+        )
+        jobs_with_employer.append(job)
+
+    if search_query:
+        filtered_jobs = [
+            job
+            for job in jobs_with_employer
+            if search_query in job["title"].lower()
+            or search_query in job["description"].lower()
+        ]
+    else:
+        filtered_jobs = jobs_with_employer
+
+    total_jobs = len(filtered_jobs)
+    total_pages = (total_jobs + per_page - 1) // per_page
+    page = max(1, min(page, total_pages))  # Ensure page is within bounds
+
+    start_idx = (page - 1) * per_page
+    end_idx = start_idx + per_page
+    jobs = filtered_jobs[start_idx:end_idx]
+
+    return render_template(
+        "freelancers-dashboard.html",
+        jobs=jobs,
+        total_pages=total_pages,
+        current_page=page,
+        search_query=search_query,
+    )
 
 
 @routes.route("/job/apply/<int:job_id>", methods=["GET", "POST"])

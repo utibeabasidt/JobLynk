@@ -14,26 +14,36 @@
     <header>
       <h2 class="logo">JobLynk</h2>
       <nav>
-        <a href="./">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
+        <a href="{{ url_for('routes.index') }}">Home</a>
+        <a href="{{ url_for('routes.index') }}#about">About Us</a>
+        <a href="{{ url_for('routes.index') }}#contact">Contact</a>
       </nav>
     </header>
 
     <main class="form-container">
       <h1>JobLynk</h1>
       <p>Create an account now!!</p>
-      <form>
-        <input type="text" placeholder="Full Name" required /><br /><br />
-        <input type="email" placeholder="E-mail" required /><br /><br />
-        <input type="text" placeholder="Skills" required /><br /><br />
-        <input type="date" placeholder="Date Of Birth" required /><br /><br />
-        <input type="password" placeholder="Password" required /><br /><br />
+      <form action="{{ url_for('routes.freelancers_register') }}" method="post">
+        <input type="text" name="name" placeholder="Full Name" required /><br /><br />
+        <input type="email" name="email" placeholder="E-mail" required /><br /><br />
+        <input type="text" name="skills" placeholder="Skills" required /><br /><br />
+        <input type="date" name="date_of_birth" placeholder="Date Of Birth" required /><br /><br />
+        <input type="password" name="password" placeholder="Password" required /><br /><br />
         <div class="form-footer">
           <button type="submit">Register</button>
-          <p>Already Have An Account? <a href="./login">Login</a></p>
+          <p>Already Have An Account? <a href="{{ url_for('routes.login') }}">Login</a></p>
         </div>
       </form>
     </main>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <p class="flash-message">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
   </body>
 </html>

@@ -140,6 +140,83 @@ nav a {
   color: var(--green);
 }
 
+/* Flash Messages */
+.flash-messages {
+  width: 80%;
+  max-width: 300px;
+  margin: 20px auto 0;
+  padding: 12px 15px;
+  background-color: rgba(37, 99, 235, 0.1);
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  top: 10px;
+}
+
+.flash-message {
+  color: var(--blue);
+  font-size: 90%;
+  font-weight: 500;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.flash-message:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 720px) {
+  .flash-messages {
+    max-width: 350px;
+    padding: 15px 20px;
+  }
+
+  .flash-message {
+    font-size: 95%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .flash-messages {
+    max-width: 300px;
+    padding: 15px 20px;
+  }
+
+  .flash-message {
+    font-size: 100%;
+  }
+}
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  padding-bottom: 20px;
+}
+
+.page-link {
+  padding: 8px 12px;
+  text-decoration: none;
+  color: var(--blue);
+  font-weight: 600;
+  border: 1px solid var(--blue);
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: var(--blue);
+  color: var(--second-background);
+}
+
+.page-link.active {
+  background-color: var(--blue);
+  color: var(--second-background);
+}
+
 @media screen and (min-width: 720px) {
   .head-and-hero {
     padding: 150px 0 0 0;
@@ -192,5 +269,13 @@ nav a {
   .job-card {
     width: 80%;
     padding: 15px 35px;
+  }
+
+  .pagination {
+    gap: 15px;
+  }
+
+  .page-link {
+    padding: 10px 15px;
   }
 }
