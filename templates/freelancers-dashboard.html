@@ -16,9 +16,9 @@
       <header>
         <h2 class="title">JobLynk</h2>
         <nav>
-          <a href="./">Home</a>
-          <a href="#">About Us</a>
-          <a href="#">Contact</a>
+          <a href="{{ url_for('routes.index') }}">Home</a>
+          <a href="{{ url_for('routes.index') }}#about">About Us</a>
+          <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
       </header>
 
@@ -28,67 +28,60 @@
           Welcome... <br />
           Your Dream Job Awaits
         </h1>
-        <div class="input-and-search">
-          <input type="text" placeholder="Job title/Keywords" />
-          <button class="icon-container">
-            <img src="/icons/search.svg" alt="search-icon" />
+        <form
+          action="{{ url_for('routes.freelancers_dashboard') }}"
+          method="get"
+          class="input-and-search"
+        >
+          <input
+            type="text"
+            name="search"
+            placeholder="Job title/Keywords"
+            value="{{ search_query if search_query else '' }}"
+          />
+          <button type="submit" class="icon-container">
+            search
           </button>
-        </div>
+        </form>
       </main>
 
-      <!-- Job Card 1 -->
+      <!-- Job Cards -->
+      {% for job in jobs %}
       <div class="job-card">
-        <h3>Frontend Developer</h3>
+        <h3>{{ job.title }}</h3>
         <p class="company-and-type">
-          <span>Company</span><span>Part-Time</span>
+          <span>{{ job.company_name }}</span><span>{{ job.job_type }}</span>
         </p>
-        <p class="description">
-          We’re looking for a skilled Frontend Developer to join our growing
-          team. You’ll work closely with designers and backend developers to
-          build responsive, user-friendly web interfaces that bring our products
-          to life.
-        </p>
+        <p class="description">{{ job.description }}</p>
         <div class="card-footer">
-          <p class="salary">$450/month</p>
-          <a href="./apply-freelancers" class="apply-btn">Apply</a>
+          <p class="salary">${{ job.salary }}/month</p>
+          <a
+            href="{{ url_for('routes.apply_job', job_id=job.id) }}"
+            class="apply-btn"
+            >Apply</a
+          >
         </div>
       </div>
+      {% endfor %}
 
-      <!-- Job Card 2 -->
-      <div class="job-card">
-        <h3>Frontend Developer</h3>
-        <p class="company-and-type">
-          <span>Company</span><span>Part-Time</span>
-        </p>
-        <p class="description">
-          We’re looking for a skilled Frontend Developer to join our growing
-          team. You’ll work closely with designers and backend developers to
-          build responsive, user-friendly web interfaces that bring our products
-          to life.
-        </p>
-        <div class="card-footer">
-          <p class="salary">$450/month</p>
-          <a href="./apply-freelancers.html" class="apply-btn">Apply</a>
-        </div>
-      </div>
-
-      <!-- Job Card 3 -->
-      <div class="job-card">
-        <h3>Frontend Developer</h3>
-        <p class="company-and-type">
-          <span>Company</span><span>Part-Time</span>
-        </p>
-        <p class="description">
-          We’re looking for a skilled Frontend Developer to join our growing
-          team. You’ll work closely with designers and backend developers to
-          build responsive, user-friendly web interfaces that bring our products
-          to life.
-        </p>
-        <div class="card-footer">
-          <p class="salary">$450/month</p>
-          <a href="./apply-freelancers.html" class="apply-btn">Apply</a>
-        </div>
+      <!-- Pagination -->
+      <div class="pagination">
+        {% if total_pages > 1 %} {% for page in range(1, total_pages + 1) %}
+        <a
+          href="{{ url_for('routes.freelancers_dashboard', page=page, search=search_query if search_query else None) }}"
+          class="page-link{% if page == current_page %} active{% endif %}"
+          >{{ page }}</a
+        >
+        {% endfor %} {% endif %}
       </div>
     </section>
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="flash-messages">
+      {% for message in messages %}
+      <p class="flash-message">{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
   </body>
 </html>

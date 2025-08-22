@@ -101,3 +101,49 @@ form input {
     justify-content: space-between;
   }
 }
+
+.flash-messages {
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto 0;
+  padding: 12px 15px;
+  background-color: rgba(37, 99, 235, 0.1);
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  clear: both;
+}
+
+.flash-message {
+  color: var(--blue);
+  font-size: 90%;
+  font-weight: 500;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.flash-message:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 720px) {
+  .flash-messages {
+    max-width: 350px;
+    padding: 15px 20px;
+  }
+
+  .flash-message {
+    font-size: 95%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .flash-messages {
+    max-width: 300px;
+    padding: 15px 20px;
+  }
+
+  .flash-message {
+    font-size: 100%;
+  }
+}

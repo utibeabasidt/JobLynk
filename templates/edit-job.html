@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobLynk - Edit Job</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/edit-job.css" />
+  </head>
+  <body>
+    <header>
+      <h2 class="title">JobLynk</h2>
+      <div class="links">
+        <a href="{{ url_for('routes.index') }}">Home</a>
+        <a href="{{ url_for('routes.index') }}#about">About Us</a>
+        <a href="{{ url_for('routes.index') }}#contact">Contact</a>
+      </div>
+    </header>
+
+    <div class="form-container">
+      <h1 class="form-header">JobLynk</h1>
+      <p class="form-subheader">Edit Your Job Opportunity</p>
+
+      <form action="{{ url_for('routes.edit_job', job_id=job.id) }}" method="post">
+        <div class="form-group">
+          <input type="text" name="title" value="{{ job.title }}" placeholder="Job Title" required />
+        </div>
+        
+        <div class="form-group">
+          <textarea name="description" placeholder="Description" required>{{ job.description }}</textarea>
+        </div>
+
+        <div class="row">
+          <input type="text" name="salary" value="{{ job.salary }}" placeholder="Salary" required />
+          <input type="text" name="job_type" value="{{ job.job_type }}" placeholder="Type (Part-time / Full-time)" required />
+        </div>
+
+        <div class="btn-container">
+          <button type="submit" class="register-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <p class="flash-message">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </body>
+</html>

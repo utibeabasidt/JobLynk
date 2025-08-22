@@ -14,9 +14,13 @@ def get_db_connection() -> Connection:
         raise ValueError("POSTGRES_URL environment variable is not set")
     return connect(conn_str, row_factory=dict_row)
 
-def create_tables() -> None:
+def create_tables(reset_all: bool = False) -> None:
     conn = get_db_connection()
     cur = conn.cursor()
+    if reset_all:
+        cur.execute("DROP TABLE IF EXISTS applications CASCADE")
+        cur.execute("DROP TABLE IF EXISTS jobs CASCADE")
+        cur.execute("DROP TABLE IF EXISTS users CASCADE")
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS users (
@@ -25,7 +29,8 @@ def create_tables() -> None:
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             role TEXT NOT NULL CHECK (role IN ('freelancer', 'employer')),
-            company_name TEXT
+            company_name TEXT,
+            date_of_birth DATE
         );
         """
     )
@@ -56,17 +61,17 @@ def create_tables() -> None:
     conn.commit()
     conn.close()
 
-def insert_user(name: str, email: str, password: str, role: str, company_name: str = None) -> Optional[int]:
+def insert_user(name: str, email: str, password: str, role: str, company_name: str = None, date_of_birth: str = None) -> Optional[int]:
     conn = get_db_connection()
     cur = conn.cursor()
     try:
         cur.execute(
             """
-            INSERT INTO users (name, email, password, role, company_name)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO users (name, email, password, role, company_name, date_of_birth)
+            VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING id
             """,
-            (name, email, password, role, company_name),
+            (name, email, password, role, company_name, date_of_birth),
         )
         user_id = cur.fetchone()["id"]
         conn.commit()
@@ -80,7 +85,7 @@ def insert_user(name: str, email: str, password: str, role: str, company_name: s
 def get_user_by_email(email: str) -> Optional[dict]:
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id, name, email, password, role, company_name FROM users WHERE email = %s", (email,))
+    cur.execute("SELECT id, name, email, password, role, company_name, date_of_birth FROM users WHERE email = %s", (email,))
     user = cur.fetchone()
     conn.close()
     return user
@@ -88,7 +93,7 @@ def get_user_by_email(email: str) -> Optional[dict]:
 def get_user_by_id(user_id: int) -> Optional[dict]:
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id, name, email, password, role, company_name FROM users WHERE id = %s", (user_id,))
+    cur.execute("SELECT id, name, email, password, role, company_name, date_of_birth FROM users WHERE id = %s", (user_id,))
     user = cur.fetchone()
     conn.close()
     return user
@@ -111,6 +116,45 @@ def insert_job(title: str, description: str, salary: float, job_type: str, emplo
     except Exception:
         conn.rollback()
         return None
+    finally:
+        conn.close()
+
+def update_job(job_id: int, title: str, description: str, salary: float, job_type: str, employer_id: int) -> bool:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            """
+            UPDATE jobs
+            SET title = %s, description = %s, salary = %s, job_type = %s
+            WHERE id = %s AND employer_id = %s
+            """,
+            (title, description, salary, job_type, job_id, employer_id),
+        )
+        conn.commit()
+        return cur.rowcount > 0
+    except Exception:
+        conn.rollback()
+        return False
+    finally:
+        conn.close()
+
+def delete_job(job_id: int, employer_id: int) -> bool:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            """
+            DELETE FROM jobs
+            WHERE id = %s AND employer_id = %s
+            """,
+            (job_id, employer_id),
+        )
+        conn.commit()
+        return cur.rowcount > 0
+    except Exception:
+        conn.rollback()
+        return False
     finally:
         conn.close()
 

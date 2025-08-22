@@ -3,8 +3,7 @@ import os
 from routes import routes
 from db import create_tables
 
-create_tables()  # Ensure tables are created at startup
-
+create_tables() 
 app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.secret_key = os.getenv("SECRET_KEY")  
 
