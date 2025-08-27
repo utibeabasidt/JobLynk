@@ -8,24 +8,24 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/static/css/apply-freelancer.css" />
+    <link rel="stylesheet" href="/static/css/apply-freelancer.min.css" />
   </head>
   <body>
     <header>
       <div class="logo">JobLynk</div>
       <nav>
-        <a href="./freelancers-dashboard.html">Dashboard</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
+        <a href="{{ url_for('routes.freelancers_dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('routes.index') }}#about">About Us</a>
+        <a href="{{ url_for('routes.index') }}#contact">Contact</a>
       </nav>
     </header>
 
     <div class="form-container">
       <h1>JobLynk</h1>
-      <p>Application Form...</p>
+      <p>Application Form for {{ job.title if job else 'Job' }}...</p>
 
-      <form>
-        <input type="text" name="fullname" placeholder="Full Name" required />
+      <form action="{{ url_for('routes.apply_job', job_id=job_id) }}" method="post" enctype="multipart/form-data">
+        <input type="text" name="fullname" placeholder="Full Name" value="{{ user.name if user else '' }}" required />
         <input type="text" name="skills" placeholder="Skills" required />
         <textarea
           name="about"
@@ -43,5 +43,15 @@
         </div>
       </form>
     </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <p class="flash-message">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
   </body>
 </html>
