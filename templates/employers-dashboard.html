@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobLynk - Employer Dashboard</title>
-    <link rel="stylesheet" href="/static/css/employers-dashboard.css" />
+    <link rel="stylesheet" href="/static/css/employers-dashboard.min.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
       rel="stylesheet"
@@ -13,9 +13,10 @@
     <div class="header-and-dashboard-heading">
       <header>
         <h2 class="logo">JobLynk</h2>
-        <nav>
+        <button class="menu-toggle">Menu</button>
+        <nav class="nav-menu">
           <a href="{{ url_for('routes.index') }}">Home</a>
-          <a href="{{ url_for('routes.index') }}#about">About Us</a>
+          <a href="{{ url_for('routes.index') }}#about">About</a>
           <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
         <button class="add-job-btn">
@@ -28,36 +29,49 @@
 
     <main class="dashboard">
       <section class="employer-info">
-        <h3 class="name">{{ user.name }}</h3>
-        <p class="subject">Company Name:</p>
-        <p class="det">{{ user.company_name }}</p>
-
-        <p class="subject">Email:</p>
-        <p class="det">{{ user.email }}</p>
-
-        <p class="subject">Date of establishment:</p>
-        <p class="det">{{ user.date_of_birth }}</p>
+        <div class="info-card">
+          <h3 class="name">{{ user.name }}</h3>
+          <div class="info-item">
+            <span class="subject">Company Name:</span>
+            <span class="det">{{ user.company_name or 'Not specified' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="subject">Email:</span>
+            <span class="det">{{ user.email | truncate(15, true, '......' if user.email | length > 15 else user.email)}}</span>
+          </div>
+          <div class="info-item">
+            <span class="subject">Date of Establishment:</span>
+            <span class="det">{{ user.date_of_birth or 'Not specified' }}</span>
+          </div>
+        </div>
       </section>
 
       <section class="job-listings">
-        <h2>Previous Jobs Listed</h2>
-        {% for job in jobs %}
-          <div class="job-card">
-            <h3>{{ job.title }}</h3>
-            <p class="job-type">{{ job.job_type }}</p>
-            <p class="description">{{ job.description }}</p>
-            <p class="salary">${{ job.salary }}/month</p>
-            <div class="card-actions">
-              <form action="{{ url_for('routes.edit_job', job_id=job.id) }}" method="get" style="display:inline;">
-                <button type="submit" class="edit-btn">Edit</button>
-              </form>
-              <form action="{{ url_for('routes.delete_job', job_id=job.id) }}" method="post" style="display:inline;">
-                <button type="submit" class="delete-btn">Delete</button>
-              </form>
+        <h2 class="section-title">Previous Jobs Listed</h2>
+        <div class="jobs-container">
+          {% for job in jobs %}
+            <div class="job-card">
+              <div class="job-header">
+                <h3 class="job-title">{{ job.title }}</h3>
+                <span class="job-status">Active</span>
+              </div>
+              <p class="job-type">{{ job.job_type }}</p>
+              <p class="description">{{ job.description|truncate(80, true, '...') if job.description|length > 80 else job.description }}</p>
+              <p class="salary">${{ job.salary }}/month</p>
+              <div class="card-actions">
+                <form action="{{ url_for('routes.edit_job', job_id=job.id) }}" method="get" style="display:inline;">
+                  <button type="submit" class="edit-btn">Edit</button>
+                </form>
+                <form action="{{ url_for('routes.delete_job', job_id=job.id) }}" method="post" style="display:inline;">
+                  <button type="submit" class="delete-btn">Delete</button>
+                </form>
+                <form action="{{ url_for('routes.view_job_applications', job_id=job.id) }}" method="get" style="display:inline;">
+                  <button type="submit" class="view-applications-btn">View Applications</button>
+                </form>
+              </div>
             </div>
-          </div>
-        {% endfor %}
-
+          {% endfor %}
+        </div>
         <div class="add-jobs-bottom">
           <button class="add-job-btn2">
             <a href="{{ url_for('routes.upload_job') }}">Add Job</a>

@@ -192,3 +192,48 @@ def insert_application(job_id: int, freelancer_id: int, cover_letter: str, resum
         return False
     finally:
         conn.close()
+
+def get_applications_for_employer(employer_id: int) -> List[dict]:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        """
+        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, u.name AS freelancer_name, u.email AS freelancer_email, j.title AS job_title
+        FROM applications a
+        JOIN users u ON a.freelancer_id = u.id
+        JOIN jobs j ON a.job_id = j.id
+        WHERE j.employer_id = %s
+        """,
+        (employer_id,)
+    )
+    applications = cur.fetchall()
+    conn.close()
+    return applications
+
+
+def get_application_by_id(application_id: int) -> Optional[dict]:
+    """Get a specific application by ID with freelancer details"""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        """
+        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, 
+               u.name AS freelancer_name, u.email AS freelancer_email
+        FROM applications a
+        JOIN users u ON a.freelancer_id = u.id
+        WHERE a.id = %s
+        """,
+        (application_id,)
+    )
+    application = cur.fetchone()
+    conn.close()
+    return application
+
+def get_job_by_id(job_id: int) -> Optional[dict]:
+    """Get a specific job by ID"""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT id, title, description, salary, job_type, employer_id FROM jobs WHERE id = %s", (job_id,))
+    job = cur.fetchone()
+    conn.close()
+    return job

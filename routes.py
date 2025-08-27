@@ -1,5 +1,4 @@
-# routes.py
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, send_file, url_for, flash
 import db
 import utils
 import os
@@ -7,21 +6,44 @@ from functools import wraps
 
 routes = Blueprint("routes", __name__)
 
-
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not utils.user_is_authenticated():
             return redirect(url_for("routes.login"))
         return f(*args, **kwargs)
-
     return decorated_function
 
+def role_required(required_role):
+    """Decorator that requires a specific role"""
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not utils.user_is_authenticated():
+                return redirect(url_for("routes.login"))
+            
+            if not utils.user_has_role(required_role):
+                current_role = utils.get_current_user_role()
+                if current_role == 'freelancer':
+                    flash("Access denied. You need employer privileges.")
+                    return redirect(url_for("routes.freelancers_dashboard"))
+                elif current_role == 'employer':
+                    flash("Access denied. You need freelancer privileges.")
+                    return redirect(url_for("routes.employers_dashboard"))
+                else:
+                    return redirect(url_for("routes.login"))
+            
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
 
 @routes.route("/")
 def index():
     return render_template("index.html")
 
+@routes.route("/logout")
+def logout():
+    return utils.clear_user_cookies()
 
 @routes.route("/login", methods=["GET", "POST"])
 def login():
@@ -33,11 +55,10 @@ def login():
         flash("Email and Password are required!")
         return redirect(url_for("routes.login"))
     user = db.get_user_by_email(email)
-    if not user or user["password"] != password:  # Replace with hashing
+    if not user or user["password"] != password: 
         flash("Invalid email or password!")
         return redirect(url_for("routes.login"))
     return utils.set_user_cookie_and_redirect(user["id"], user["role"])
-
 
 @routes.route("/change-password", methods=["GET", "POST"])
 def change_password():
@@ -52,12 +73,11 @@ def change_password():
     if user:
         db.insert_user(
             user["name"], email, new_password, user["role"], user["company_name"]
-        )  # Simplified reset
+        )
         flash("Password changed successfully!")
         return redirect(url_for("routes.login"))
     flash("Email not found!")
     return redirect(url_for("routes.change_password"))
-
 
 @routes.route("/freelancers/register", methods=["GET", "POST"])
 def freelancers_register():
@@ -74,7 +94,6 @@ def freelancers_register():
         flash("Email already exists!")
         return redirect(url_for("routes.freelancers_register"))
     return utils.set_user_cookie_and_redirect(user_id, "freelancer")
-
 
 @routes.route("/employers/register", methods=["GET", "POST"])
 def employers_register():
@@ -96,23 +115,31 @@ def employers_register():
         return redirect(url_for("routes.employers_register"))
     return utils.set_user_cookie_and_redirect(user_id, "employer")
 
-
-# Authenticated routes
-
+# Authenticated routes with role requirements
 
 @routes.route("/employers/dashboard")
-@login_required
+@role_required('employer')
 def employers_dashboard():
-    user_id = int(request.cookies.get("user_id"))
+    user_id = utils.get_current_user_id()
     jobs = db.get_jobs_by_employer(user_id)
     user = db.get_user_by_id(user_id)
     return render_template("employers-dashboard.html", jobs=jobs, user=user)
 
+@routes.route("/employer/job/applications/<int:job_id>", methods=["GET"])
+@role_required('employer')
+def view_job_applications(job_id):
+    user_id = utils.get_current_user_id()
+    job = next((j for j in db.get_jobs_by_employer(user_id) if j["id"] == job_id), None)
+    if not job:
+        flash("Job not found or unauthorized!")
+        return redirect(url_for("routes.employers_dashboard"))
+    applications = [a for a in db.get_applications_for_employer(user_id) if a["job_id"] == job_id]
+    return render_template("job-applications.html", job=job, applications=applications)
 
 @routes.route("/employer/upload", methods=["GET", "POST"])
-@login_required
+@role_required('employer')
 def upload_job():
-    user_id = int(request.cookies.get("user_id"))
+    user_id = utils.get_current_user_id()
     if request.method == "POST":
         job_id = db.insert_job(
             request.form["title"],
@@ -127,11 +154,10 @@ def upload_job():
         flash("Failed to upload job!")
     return render_template("upload-employers.html")
 
-
 @routes.route("/employer/job/edit/<int:job_id>", methods=["GET", "POST"])
-@login_required
+@role_required('employer')
 def edit_job(job_id):
-    user_id = int(request.cookies.get("user_id"))
+    user_id = utils.get_current_user_id()
     job = next((j for j in db.get_jobs_by_employer(user_id) if j["id"] == job_id), None)
     if not job:
         flash("Job not found or unauthorized!")
@@ -150,20 +176,18 @@ def edit_job(job_id):
         flash("Failed to update job!")
     return render_template("edit-job.html", job=job)
 
-
 @routes.route("/employer/job/delete/<int:job_id>", methods=["POST"])
-@login_required
+@role_required('employer')
 def delete_job(job_id):
-    user_id = int(request.cookies.get("user_id"))
+    user_id = utils.get_current_user_id()
     if db.delete_job(job_id, user_id):
         flash("Job deleted successfully!")
     else:
         flash("Failed to delete job or unauthorized!")
     return redirect(url_for("routes.employers_dashboard"))
 
-
 @routes.route("/freelancers/dashboard")
-@login_required
+@role_required('freelancer')
 def freelancers_dashboard():
     page = request.args.get("page", 1, type=int)
     search_query = request.args.get("search", "").lower()
@@ -207,22 +231,77 @@ def freelancers_dashboard():
 
 
 @routes.route("/job/apply/<int:job_id>", methods=["GET", "POST"])
-@login_required
+@role_required('freelancer')
 def apply_job(job_id):
-    user_id = int(request.cookies.get("user_id"))
+    user_id = utils.get_current_user_id()
     if request.method == "POST":
-        cover_letter = request.form.get("cover_letter")
+        about = request.form.get("about")  
         resume = request.files.get("resume")
         if resume and resume.filename:
             upload_folder = os.path.join("static", "uploads")
             os.makedirs(upload_folder, exist_ok=True)
-            resume_path = os.path.join(upload_folder, f"{user_id}_{resume.filename}")
+            
+            filename = f"{user_id}_{resume.filename}"
+            resume_path = os.path.join(upload_folder, filename)
             resume.save(resume_path)
-            if db.insert_application(job_id, user_id, cover_letter, resume_path):
+            
+            if db.insert_application(job_id, user_id, about, resume_path):
                 flash("Application submitted successfully!")
                 return redirect(url_for("routes.freelancers_dashboard"))
             flash("You have already applied for this job!")
         else:
             flash("Please upload a resume!")
     job = next((j for j in db.get_all_jobs() if j["id"] == job_id), None)
-    return render_template("apply-freelancers.html", job_id=job_id, job=job)
+    user = db.get_user_by_id(user_id) 
+    return render_template("apply-freelancers.html", job_id=job_id, job=job, user=user)
+
+
+@routes.route("/download_resume/<int:application_id>")
+@role_required('employer')
+def download_resume(application_id):
+    """Download resume for a specific application - deployment ready"""
+    user_id = utils.get_current_user_id()
+    
+    # Get the application and verify the employer owns the job
+    application = db.get_application_by_id(application_id)
+    if not application:
+        flash("Application not found!")
+        return redirect(url_for("routes.employers_dashboard"))
+    
+    # Check if the current employer owns the job this application is for
+    job = db.get_job_by_id(application["job_id"])
+    if not job or job["employer_id"] != user_id:
+        flash("Unauthorized access!")
+        return redirect(url_for("routes.employers_dashboard"))
+    
+    # Check if resume exists - works both locally and in production
+    resume_path = application["resume_path"]
+    if not resume_path:
+        flash("No resume uploaded for this application!")
+        return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))
+    
+    # Handle both absolute and relative paths for deployment
+    if not os.path.isabs(resume_path):
+        # If it's a relative path, make it absolute from app root
+        resume_path = os.path.join(os.getcwd(), resume_path)
+    
+    if not os.path.exists(resume_path):
+        flash("Resume file not found on server!")
+        return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))
+    
+    try:
+        filename = os.path.basename(resume_path)
+        if "_" in filename:
+            original_filename = "_".join(filename.split("_")[1:])
+        else:
+            original_filename = filename
+            
+        return send_file(
+            resume_path,
+            as_attachment=True,
+            download_name=f"{application['freelancer_name']}_resume_{original_filename}",
+            mimetype='application/octet-stream'
+        )
+    except Exception as e:
+        flash("Error downloading resume!")
+        return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))

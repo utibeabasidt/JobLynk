@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobLynk - Job Applications</title>
+    <link rel="stylesheet" href="/static/css/view-applications.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="header-and-dashboard-heading">
+      <header>
+        <h2 class="logo">JobLynk</h2>
+        <button class="menu-toggle">Menu</button>
+        <nav class="nav-menu">
+          <a href="{{ url_for('routes.index') }}">Home</a>
+          <a href="{{ url_for('routes.index') }}#about">About</a>
+          <a href="{{ url_for('routes.index') }}#contact">Contact</a>
+        </nav>
+        <button class="add-job-btn">
+          <a href="{{ url_for('routes.employers_dashboard') }}">Back to Dashboard</a>
+        </button>
+      </header>
+      <h1 class="dashboard-heading">Applications for {{ job.title }}</h1>
+    </div>
+
+    <main class="dashboard">
+      <section class="job-listings">
+        {% if applications %}
+          {% for app in applications %}
+            <div class="application-card">
+              <h3>Application from {{ app.freelancer_name }}</h3>
+              <p>Email: {{ app.freelancer_email }}</p>
+              <p><strong>About applicant :</strong> {{ app.cover_letter|truncate(190, true, '...') if app.cover_letter|length > 190 else app.cover_letter }}</p>
+              {% if app.resume_path %}
+                <a href="{{ url_for('routes.download_resume', application_id=app.id) }}" class="download-link">Download Resume</a>
+              {% else %}
+                <p>No resume uploaded</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-applications">
+            <div class="no-applications-icon"></div>
+            <h2>No Applications Yet</h2>
+            <p>It looks like no freelancers have applied for this job yet. Share your job listing with more people or wait for talented candidates to find it!</p>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <p class="flash-message">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </body>
+</html>
