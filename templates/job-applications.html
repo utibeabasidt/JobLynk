@@ -14,15 +14,12 @@
     <div class="header-and-dashboard-heading">
       <header>
         <h2 class="logo">JobLynk</h2>
-        <button class="menu-toggle">Menu</button>
         <nav class="nav-menu">
           <a href="{{ url_for('routes.index') }}">Home</a>
           <a href="{{ url_for('routes.index') }}#about">About</a>
           <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
-        <button class="add-job-btn">
-          <a href="{{ url_for('routes.employers_dashboard') }}">Back to Dashboard</a>
-        </button>
+        <a href="{{ url_for('routes.employers_dashboard') }}" class="add-job-btn">Back to Dashboard</a>
       </header>
       <h1 class="dashboard-heading">Applications for {{ job.title }}</h1>
     </div>
