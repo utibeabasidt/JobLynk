@@ -176,7 +176,7 @@ def edit_job(job_id):
         flash("Failed to update job!")
     return render_template("edit-job.html", job=job)
 
-@routes.route("/employer/job/delete/<int:job_id>", methods=["POST"])
+@routes.route("/employer/job/delete/<int:job_id>", methods=["POST","GET"])
 @role_required('employer')
 def delete_job(job_id):
     user_id = utils.get_current_user_id()
