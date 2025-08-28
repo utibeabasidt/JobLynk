@@ -18,13 +18,10 @@
           <a href="{{ url_for('routes.index') }}#about">About</a>
           <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
-        <button class="add-job-btn">
-          <a href="{{ url_for('routes.upload_job') }}" class="btn-link">Add Job</a>
-        </button>
+        <a href="{{ url_for('routes.upload_job') }}" class="add-job-btn">Add Job</a>
       </header>
       <h1 class="dashboard-heading">Employers Dashboard</h1>
     </div>
-
     <main class="dashboard">
       <section class="employer-info">
         <div class="info-card">
@@ -43,7 +40,6 @@
           </div>
         </div>
       </section>
-
       <section class="job-listings">
         <h2 class="section-title">Previous Jobs Listed</h2>
         <div class="jobs-container">
@@ -57,27 +53,18 @@
               <p class="description">{{ job.description | truncate(80, true, '...') if job.description | length > 80 else job.description }}</p>
               <p class="salary">${{ job.salary }}/month</p>
               <div class="card-actions">
-                <form action="{{ url_for('routes.edit_job', job_id=job.id) }}" method="get" style="display:inline;">
-                  <button type="submit" class="edit-btn"><a href="{{ url_for('routes.edit_job', job_id=job.id) }}" class="btn-link">Edit</a></button>
-                </form>
-                <form action="{{ url_for('routes.delete_job', job_id=job.id) }}" method="post" style="display:inline;">
-                  <button type="submit" class="delete-btn"><a href="{{ url_for('routes.delete_job', job_id=job.id) }}" class="btn-link">Delete</a></button>
-                </form>
-                <form action="{{ url_for('routes.view_job_applications', job_id=job.id) }}" method="get" style="display:inline;">
-                  <button type="submit" class="view-applications-btn"><a href="{{ url_for('routes.view_job_applications', job_id=job.id) }}" class="btn-link">View Applications</a></button>
-                </form>
+                <a href="{{ url_for('routes.edit_job', job_id=job.id) }}" class="edit-btn">Edit</a>
+                <a href="{{ url_for('routes.delete_job', job_id=job.id) }}" class="delete-btn">Delete</a>
+                <a href="{{ url_for('routes.view_job_applications', job_id=job.id) }}" class="view-applications-btn">View Applications</a>
               </div>
             </div>
           {% endfor %}
         </div>
         <div class="add-jobs-bottom">
-          <button class="add-job-btn2">
-            <a href="{{ url_for('routes.upload_job') }}" class="btn-link">Add Job</a>
-          </button>
+          <a href="{{ url_for('routes.upload_job') }}" class="add-job-btn2">Add Job</a>
         </div>
       </section>
     </main>
-
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="flash-messages">
