@@ -89,7 +89,7 @@
       <p><span>Members</span><span>Members</span></p>
       <p><span>Members</span><span>Members</span></p>
     </div>
-    <div class="contact-container">
+    <form class="contact-container" method="post" action="{{ url_for('routes.contact') }}" >
       <h1>Contact Us</h1>
       <div class="contact-label-and-input">
         <label for="name">Name:</label>
@@ -106,7 +106,7 @@
       >
         Submit
       </button>
-    </div>
+    </form>
   </footer>
   <p>{% with messages = get_flashed_messages() %} {% if messages %}</p>
   <div class="flash-messages">
