@@ -13,20 +13,15 @@
     <div class="header-and-dashboard-heading">
       <header>
         <h2 class="logo">JobLynk</h2>
-        <button class="menu-toggle">Menu</button>
         <nav class="nav-menu">
           <a href="{{ url_for('routes.index') }}">Home</a>
           <a href="{{ url_for('routes.index') }}#about">About</a>
           <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
-        <button class="add-job-btn">
-          <a href="{{ url_for('routes.upload_job') }}">Add Job</a>
-        </button>
+        <a href="{{ url_for('routes.upload_job') }}" class="add-job-btn">Add Job</a>
       </header>
-
       <h1 class="dashboard-heading">Employers Dashboard</h1>
     </div>
-
     <main class="dashboard">
       <section class="employer-info">
         <div class="info-card">
@@ -37,7 +32,7 @@
           </div>
           <div class="info-item">
             <span class="subject">Email:</span>
-            <span class="det">{{ user.email | truncate(15, true, '......' if user.email | length > 15 else user.email)}}</span>
+            <span class="det">{{ user.email | truncate(15, true, '...') if user.email | length > 15 else user.email }}</span>
           </div>
           <div class="info-item">
             <span class="subject">Date of Establishment:</span>
@@ -45,7 +40,6 @@
           </div>
         </div>
       </section>
-
       <section class="job-listings">
         <h2 class="section-title">Previous Jobs Listed</h2>
         <div class="jobs-container">
@@ -56,30 +50,21 @@
                 <span class="job-status">Active</span>
               </div>
               <p class="job-type">{{ job.job_type }}</p>
-              <p class="description">{{ job.description|truncate(80, true, '...') if job.description|length > 80 else job.description }}</p>
+              <p class="description">{{ job.description | truncate(80, true, '...') if job.description | length > 80 else job.description }}</p>
               <p class="salary">${{ job.salary }}/month</p>
               <div class="card-actions">
-                <form action="{{ url_for('routes.edit_job', job_id=job.id) }}" method="get" style="display:inline;">
-                  <button type="submit" class="edit-btn">Edit</button>
-                </form>
-                <form action="{{ url_for('routes.delete_job', job_id=job.id) }}" method="post" style="display:inline;">
-                  <button type="submit" class="delete-btn">Delete</button>
-                </form>
-                <form action="{{ url_for('routes.view_job_applications', job_id=job.id) }}" method="get" style="display:inline;">
-                  <button type="submit" class="view-applications-btn">View Applications</button>
-                </form>
+                <a href="{{ url_for('routes.edit_job', job_id=job.id) }}" class="edit-btn">Edit</a>
+                <a href="{{ url_for('routes.delete_job', job_id=job.id) }}" class="delete-btn">Delete</a>
+                <a href="{{ url_for('routes.view_job_applications', job_id=job.id) }}" class="view-applications-btn">View Applications</a>
               </div>
             </div>
           {% endfor %}
         </div>
         <div class="add-jobs-bottom">
-          <button class="add-job-btn2">
-            <a href="{{ url_for('routes.upload_job') }}">Add Job</a>
-          </button>
+          <a href="{{ url_for('routes.upload_job') }}" class="add-job-btn2">Add Job</a>
         </div>
       </section>
     </main>
-
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="flash-messages">

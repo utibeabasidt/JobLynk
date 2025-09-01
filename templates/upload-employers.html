@@ -13,7 +13,7 @@
   <body>
     <header>
       <h2 class="logo">JobLynk</h2>
-      <nav>
+      <nav class="nav-menu">
         <a href="{{ url_for('routes.employers_dashboard') }}">Dashboard</a>
         <a href="{{ url_for('routes.index') }}#about">About Us</a>
         <a href="{{ url_for('routes.index') }}#contact">Contact</a>
@@ -26,29 +26,23 @@
 
       <form action="{{ url_for('routes.upload_job') }}" method="post">
         <input type="text" name="title" placeholder="Job Title" required />
-        <textarea
-          name="description"
-          placeholder="Description"
-          required
-        ></textarea>
+        <textarea name="description" placeholder="Description" required></textarea>
         <div class="row">
           <input type="text" name="salary" placeholder="Salary" required />
-          <input
-            type="text"
-            name="job_type"
-            placeholder="Type (Part-time / Full-time)"
-            required
-          />
+          <input type="text" name="job_type" placeholder="Type (Part-time / Full-time)" required />
         </div>
         <button type="submit" class="btn">Upload</button>
       </form>
     </div>
-    {% with messages = get_flashed_messages() %} {% if messages %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
     <div class="flash-messages">
       {% for message in messages %}
       <p class="flash-message">{{ message }}</p>
       {% endfor %}
     </div>
-    {% endif %} {% endwith %}
+    {% endif %}
+    {% endwith %}
   </body>
 </html>
