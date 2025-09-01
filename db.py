@@ -58,6 +58,16 @@ def create_tables(reset_all: bool = False) -> None:
         );
         """
     )
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS contacts (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            message TEXT NOT NULL
+        );
+        """
+    )
     conn.commit()
     conn.close()
 
@@ -237,3 +247,24 @@ def get_job_by_id(job_id: int) -> Optional[dict]:
     job = cur.fetchone()
     conn.close()
     return job
+
+def insert_contact(name: str, email: str, message: str) -> Optional[int]:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            """
+            INSERT INTO contacts (name, email, message)
+            VALUES (%s, %s, %s)
+            RETURNING id
+            """,
+            (name, email, message)
+        )
+        contact_id = cur.fetchone()[0]
+        conn.commit()
+        return contact_id
+    except Exception:
+        conn.rollback()
+        return None
+    finally:
+        conn.close()
