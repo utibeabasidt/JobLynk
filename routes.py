@@ -305,3 +305,21 @@ def download_resume(application_id):
     except Exception as e:
         flash("Error downloading resume!")
         return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))
+
+
+@routes.route("/contact", methods=['POST'])
+def contact():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    message = request.form.get("message")
+    if not name or not email or not message:
+        flash("All fields are required!")
+        return redirect(url_for("routes.index") + "#contact")
+    
+    # Here you would typically handle the contact form submission,
+    # e.g., save to database or send an email. For now, we just flash a message.
+    if db.insert_contact(name, email, message):
+        flash("Thank you for contacting us! We will get back to you soon.")
+    else:
+        flash("Error submitting your message. Please try again later.")
+    return redirect(url_for("routes.index") + "#contact")
