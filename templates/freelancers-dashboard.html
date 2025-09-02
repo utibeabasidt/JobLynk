@@ -16,7 +16,7 @@
         <h2 class="logo">JobLynk</h2>
         <nav class="nav-menu">
           <a href="{{ url_for('routes.index') }}">Home</a>
-          <a href="{{ url_for('routes.index') }}#about">About</a>
+          <a href="{{ url_for('routes.freelancer_status') }}">Status</a>
           <a href="{{ url_for('routes.index') }}#contact">Contact</a>
         </nav>
       </header>
@@ -27,7 +27,10 @@
     <section class="head-and-hero">
       <!-- Hero Section -->
       <main class="hero">
-        <h1 class="joblynk-hero">Welcome... <br /> Your Dream Job Awaits</h1>
+        <h1 class="joblynk-hero">
+          Welcome... <br />
+          Your Dream Job Awaits
+        </h1>
         <form
           action="{{ url_for('routes.freelancers_dashboard') }}"
           method="get"
@@ -44,54 +47,54 @@
       </main>
 
       <!-- Job Cards or No Jobs Message -->
-      {% if jobs %}
-        {% for job in jobs %}
-          <div class="job-card">
-            <h3>{{ job.title }}</h3>
-            <p class="company-and-type">
-              <span>{{ job.company_name }}</span><span>{{ job.job_type }}</span>
-            </p>
-            <p class="description">{{ job.description|truncate(80, true, '...') if job.description|length > 80 else job.description }}</p>
-            <div class="card-footer">
-              <p class="salary">${{ job.salary }}/month</p>
-              <a
-                href="{{ url_for('routes.apply_job', job_id=job.id) }}"
-                class="apply-btn"
-                >Apply</a
-              >
-            </div>
-          </div>
-        {% endfor %}
-      {% else %}
-        <div class="no-jobs-message">
-          <div class="no-jobs-icon"></div>
-          <h2>No Jobs Available</h2>
-          <p>It seems there are no jobs posted yet. Check back later or refine your search!</p>
+      {% if jobs %} {% for job in jobs %}
+      <div class="job-card">
+        <h3>{{ job.title }}</h3>
+        <p class="company-and-type">
+          <span>{{ job.company_name }}</span><span>{{ job.job_type }}</span>
+        </p>
+        <p class="description">
+          {{ job.description|truncate(80, true, '...') if job.description|length
+          > 80 else job.description }}
+        </p>
+        <div class="card-footer">
+          <p class="salary">${{ job.salary }}/month</p>
+          <a
+            href="{{ url_for('routes.apply_job', job_id=job.id) }}"
+            class="apply-btn"
+            >Apply</a
+          >
         </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="no-jobs-message">
+        <div class="no-jobs-icon"></div>
+        <h2>No Jobs Available</h2>
+        <p>
+          It seems there are no jobs posted yet. Check back later or refine your
+          search!
+        </p>
+      </div>
       {% endif %}
 
       <!-- Pagination -->
       <div class="pagination">
-        {% if total_pages > 1 %}
-          {% for page in range(1, total_pages + 1) %}
-            <a
-              href="{{ url_for('routes.freelancers_dashboard', page=page, search=search_query if search_query else None) }}"
-              class="page-link{% if page == current_page %} active{% endif %}"
-              >{{ page }}</a
-            >
-          {% endfor %}
-        {% endif %}
+        {% if total_pages > 1 %} {% for page in range(1, total_pages + 1) %}
+        <a
+          href="{{ url_for('routes.freelancers_dashboard', page=page, search=search_query if search_query else None) }}"
+          class="page-link{% if page == current_page %} active{% endif %}"
+          >{{ page }}</a
+        >
+        {% endfor %} {% endif %}
       </div>
     </section>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash-messages">
-          {% for message in messages %}
-            <p class="flash-message">{{ message }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="flash-messages">
+      {% for message in messages %}
+      <p class="flash-message">{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
   </body>
 </html>

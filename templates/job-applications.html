@@ -37,6 +37,16 @@
               {% else %}
                 <p>No resume uploaded</p>
               {% endif %}
+              <div class="status-actions">
+                <form action="{{ url_for('routes.update_application_status', application_id=app.id) }}" method="POST" style="display:inline;">
+                  <select name="status" class="status-select">
+                    <option value="applied" {% if app.status == 'applied' %}selected{% endif %}>Applied</option>
+                    <option value="approved" {% if app.status == 'approved' %}selected{% endif %}>Approved</option>
+                    <option value="rejected" {% if app.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                  </select>
+                  <button type="submit" class="status-btn">Update Status</button>
+                </form>
+              </div>
             </div>
           {% endfor %}
         {% else %}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobLynk - Status</title>
+    <link rel="stylesheet" href="/static/css/freelancers-dashboard.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="header-and-dashboard-heading">
+      <header>
+        <h2 class="logo">JobLynk</h2>
+        <nav class="nav-menu">
+          <a href="{{ url_for('routes.index') }}">Home</a>
+          <a href="{{ url_for('routes.freelancers_dashboard') }}">Find Jobs</a>
+          <a href="{{ url_for('routes.index') }}#contact">Contact</a>
+        </nav>
+      </header>
+      <h1 class="dashboard-heading">My Applications</h1>
+    </div>
+
+    <section class="head-and-hero">
+      {% if applications %}
+        {% for app in applications %}
+          <div class="job-card status-card">
+            <h3>{{ app.job_title }}</h3>
+            <p class="company-and-type">
+              <span>{{ app.company_name or 'Unknown' }}</span><span>{{ app.job_type }}</span>
+            </p>
+            <p class="description">{{ app.description|truncate(90, true, '...') if app.description|length > 80 else app.description }}</p>
+            <div class="card-footer">
+              <p class="salary">${{ app.salary }}/month</p>
+              <p class="status-text">{{ app.status.capitalize() if app.status in ['approved', 'rejected'] else 'Applied' }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-jobs-message">
+          <div class="no-jobs-icon"></div>
+          <h2>Nothing to See Here</h2>
+          <p>It looks like you haven’t applied for any jobs yet. Explore opportunities and start applying!</p>
+        </div>
+      {% endif %}
+    </section>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <p class="flash-message">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </body>
+</html>

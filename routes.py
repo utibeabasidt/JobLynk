@@ -136,6 +136,7 @@ def view_job_applications(job_id):
     applications = [a for a in db.get_applications_for_employer(user_id) if a["job_id"] == job_id]
     return render_template("job-applications.html", job=job, applications=applications)
 
+
 @routes.route("/employer/upload", methods=["GET", "POST"])
 @role_required('employer')
 def upload_job():
@@ -185,6 +186,28 @@ def delete_job(job_id):
     else:
         flash("Failed to delete job or unauthorized!")
     return redirect(url_for("routes.employers_dashboard"))
+
+
+@routes.route("/employer/update_application_status/<int:application_id>", methods=["POST"])
+@role_required('employer')
+def update_application_status(application_id):
+    user_id = utils.get_current_user_id()
+    status = request.form.get("status")
+    if status not in ["applied", "approved", "rejected"]:
+        flash("Invalid status!")
+        return redirect(url_for("routes.employers_dashboard"))
+    
+    application = db.get_application_by_id(application_id)
+    if not application or db.get_job_by_id(application["job_id"])["employer_id"] != user_id:
+        flash("Unauthorized or application not found!")
+        return redirect(url_for("routes.employers_dashboard"))
+    
+    if db.update_application_status(application_id, status):
+        flash(f"Application status updated to {status.capitalize()}!")
+    else:
+        flash("Failed to update application status!")
+    return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))
+
 
 @routes.route("/freelancers/dashboard")
 @role_required('freelancer')
@@ -280,9 +303,7 @@ def download_resume(application_id):
         flash("No resume uploaded for this application!")
         return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))
     
-    # Handle both absolute and relative paths for deployment
     if not os.path.isabs(resume_path):
-        # If it's a relative path, make it absolute from app root
         resume_path = os.path.join(os.getcwd(), resume_path)
     
     if not os.path.exists(resume_path):
@@ -305,6 +326,13 @@ def download_resume(application_id):
     except Exception as e:
         flash("Error downloading resume!")
         return redirect(url_for("routes.view_job_applications", job_id=application["job_id"]))
+    
+@routes.route("/freelancers/status")
+@role_required('freelancer')
+def freelancer_status():
+    user_id = utils.get_current_user_id()
+    applications = db.get_applications_for_freelancer(user_id)
+    return render_template("freelancer-status.html", applications=applications)    
 
 
 @routes.route("/contact", methods=['POST'])
@@ -316,8 +344,7 @@ def contact():
         flash("All fields are required!")
         return redirect(url_for("routes.index") + "#contact")
     
-    # Here you would typically handle the contact form submission,
-    # e.g., save to database or send an email. For now, we just flash a message.
+
     if db.insert_contact(name, email, message):
         flash("Thank you for contacting us! We will get back to you soon.")
     else:
