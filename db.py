@@ -21,6 +21,7 @@ def create_tables(reset_all: bool = False) -> None:
         cur.execute("DROP TABLE IF EXISTS applications CASCADE")
         cur.execute("DROP TABLE IF EXISTS jobs CASCADE")
         cur.execute("DROP TABLE IF EXISTS users CASCADE")
+        cur.execute("DROP TABLE IF EXISTS contacts CASCADE")
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS users (
@@ -54,6 +55,7 @@ def create_tables(reset_all: bool = False) -> None:
             freelancer_id INTEGER NOT NULL REFERENCES users(id),
             cover_letter TEXT,
             resume_path TEXT,
+            status TEXT DEFAULT 'applied' CHECK (status IN ('applied', 'approved', 'rejected')),
             UNIQUE(job_id, freelancer_id)
         );
         """
@@ -208,7 +210,7 @@ def get_applications_for_employer(employer_id: int) -> List[dict]:
     cur = conn.cursor()
     cur.execute(
         """
-        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, u.name AS freelancer_name, u.email AS freelancer_email, j.title AS job_title
+        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, a.status, u.name AS freelancer_name, u.email AS freelancer_email, j.title AS job_title
         FROM applications a
         JOIN users u ON a.freelancer_id = u.id
         JOIN jobs j ON a.job_id = j.id
@@ -220,6 +222,25 @@ def get_applications_for_employer(employer_id: int) -> List[dict]:
     conn.close()
     return applications
 
+def get_applications_for_freelancer(freelancer_id: int) -> List[dict]:
+    """Get all applications for a specific freelancer with job details"""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        """
+        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, a.status,
+               j.title AS job_title, j.description, j.salary, j.job_type,
+               u.company_name
+        FROM applications a
+        JOIN jobs j ON a.job_id = j.id
+        LEFT JOIN users u ON j.employer_id = u.id
+        WHERE a.freelancer_id = %s
+        """,
+        (freelancer_id,)
+    )
+    applications = cur.fetchall()
+    conn.close()
+    return applications
 
 def get_application_by_id(application_id: int) -> Optional[dict]:
     """Get a specific application by ID with freelancer details"""
@@ -227,7 +248,7 @@ def get_application_by_id(application_id: int) -> Optional[dict]:
     cur = conn.cursor()
     cur.execute(
         """
-        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, 
+        SELECT a.id, a.job_id, a.freelancer_id, a.cover_letter, a.resume_path, a.status,
                u.name AS freelancer_name, u.email AS freelancer_email
         FROM applications a
         JOIN users u ON a.freelancer_id = u.id
@@ -247,6 +268,27 @@ def get_job_by_id(job_id: int) -> Optional[dict]:
     job = cur.fetchone()
     conn.close()
     return job
+
+def update_application_status(application_id: int, status: str) -> bool:
+    """Update the status of an application"""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            """
+            UPDATE applications
+            SET status = %s
+            WHERE id = %s
+            """,
+            (status, application_id)
+        )
+        conn.commit()
+        return cur.rowcount > 0
+    except Exception:
+        conn.rollback()
+        return False
+    finally:
+        conn.close()
 
 def insert_contact(name: str, email: str, message: str) -> Optional[int]:
     conn = get_db_connection()
