@@ -22,9 +22,7 @@
     <form action="{{ url_for('routes.login') }}" method="post">
       <input type="email" placeholder="E-mail" name="email" required />
       <input type="password" placeholder="Password" name="password" required />
-      <div class="actions">
-        <button type="submit" class="btn">Login</button>
-      </div>
+      <button type="submit" class="btn">Login</button>
     </form>
     {% with messages = get_flashed_messages() %} {% if messages or error %}
     <div class="flash-messages">
